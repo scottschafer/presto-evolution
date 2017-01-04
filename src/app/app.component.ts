@@ -34,15 +34,12 @@ export class AppComponent implements OnInit {
 
     this.allInstructions = Simulation.InstructionsAll.all;
 
-    //var x = require('LibSim');
-
-
+    /*
     if (useWebWorker) {
     // eventually get this working.
       var promise:Promise<any> = this._webWorkerService.run( 
         function(){
 
-      /*
               var someMod = require('someModule');
 
               var self = this;
@@ -53,7 +50,6 @@ export class AppComponent implements OnInit {
                 self.postMessage('got message: ' + e.data);
                 worldRunner.world.turnCrank();
               });
-              */
             }
         );
       this.worker = this._webWorkerService.getWorker(promise);
@@ -70,7 +66,8 @@ export class AppComponent implements OnInit {
       }, 1000);
         
     }
-    else {
+    else */ {
+
       var self = this;
       this.worldRunner.run(
         function(renderData:Simulation.WorldRenderData):void {
@@ -95,7 +92,7 @@ export class AppComponent implements OnInit {
     elem.find(".collapsible-header").addClass("active");
     elem.find(".collapsible").collapsible({accordion: false});
 
-    this.openAbout();
+    setTimeout(() => { this.openAbout() }, 1000); 
   }
 
   onObstacleChange(val:any) {
