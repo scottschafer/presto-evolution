@@ -1,0 +1,55 @@
+.top-ten-list {
+    padding: 10px;
+}
+
+.top-ten-list .header-row {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#eeeeee+0,cccccc+100;Gren+3D */
+    background: #eeeeee; /* Old browsers */
+    font-size: 80%;
+}
+
+.top-ten-list .entry-row {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f0f0f0+97,fafafa+100 */
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffffff 0%, #f0f0f0 97%, #fafafa 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#f0f0f0 97%,#fafafa 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #ffffff 0%,#f0f0f0 97%,#fafafa 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#fafafa',GradientType=0 ); /* IE6-9 */
+}
+
+.top-ten-list td, .top-ten-list th {
+    padding: 4px;
+}
+
+.top-ten-list td:nth-child(1), .top-ten-list th:nth-child(1) {
+    width: 20px;
+}
+
+.top-ten-list td:nth-child(2), .top-ten-list th:nth-child(2) {
+    width: 50px;
+}
+
+.top-ten-list .genomeColor {
+    position:relative;
+    width:16px;
+    height:16px;
+}
+
+.param-label {
+    width: 140px;
+    padding-top: 5px;
+    text-align: right;
+    font-size: 80%;
+}
+
+.param-row {
+    margin-bottom: 0!important;
+}
+
+.param-label {
+    max-width:150px;
+}
+
+.user-genome {
+    width: 150px;
+}

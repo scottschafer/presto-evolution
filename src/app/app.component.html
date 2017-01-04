@@ -1,3 +1,221 @@
+<div class="fluid-container">
+  <div class="row">
+
+    <div class="col s6">
+      <app-world-view [pixels]="renderPixels" worldSize="256"></app-world-view>
+
+      <!-- GENERAL PARAMETERS -->
+      <!--   SPEED: -->
+      <div class="row param-row">
+        <div class="col param-label">Speed:</div>
+        <div class="col s6"><input [(ngModel)]="params.speed" type="range" name="points" min="0" max="10"></div>
+        <div class="col s2">{{params.speed}}</div>
+      </div>
+
+      <!--   MUTATION RATE: -->
+      <div class="row param-row">
+        <div class="col param-label">Mutation rate:</div>
+        <div class="col s6"><input [(ngModel)]="params.mutationRate" type="range" name="points" min="0" max="50"></div>
+        <div class="col s2 param-label">{{params.mutationRate}}%</div>
+      </div>
+
+      <!--   FOOD DROP RATE: -->
+      <div class="row param-row">
+        <div class="col param-label">Food drop rate:</div>
+        <div class="col s6"><input [(ngModel)]="params.foodDropSpeed" type="range" name="points" min="0" max="100"></div>
+        <div class="col s2 param-label">{{params.foodDropSpeed}}%</div>
+      </div>
+
+      <div class="row param-row">
+        <div class="col param-label">Obstacles:</div>
+        <div class="col s6"><input [(ngModel)]="obstacles" (ngModelChange)="onObstacleChange($event)"
+           type="range" name="points" min="0" max="2"></div>
+        <div class="col s2 param-label">{{(obstacles==0) ? 'None' : ("#" + obstacles)}}</div>
+      </div>
+
+
+      <!-- ADVANCED SETTINGS -->
+      <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header"><i class="material-icons">settings</i>Advanced Settings</div>
+          <div class="collapsible-body">
+    
+            <div class="row param-row">
+              <div class="col param-label">Spawn energy:</div>
+              <div class="col s6"><input [(ngModel)]="params.spawnEnergyPerSegment" type="range" name="points" min="50" max="500"></div>
+              <div class="col s2  param-label">{{params.spawnEnergyPerSegment}} per segment</div>
+            </div>
+    
+            <div class="row param-row">
+              <div class="col param-label">Lifespan:</div>
+              <div class="col s6"><input [(ngModel)]="params.lifespanPerSegment" type="range" name="points" min="5000" max="50000"></div>
+              <div class="col s2 param-label">{{params.lifespanPerSegment}} per segment</div>
+            </div>
+    
+            <div class="row param-row">
+              <div class="col param-label">Photosynthesis gain:</div>
+              <div class="col s6"><input [(ngModel)]="params.energyGainedFromPhotosythesizing"
+                type="range" name="points" min="1" max="3" step=".05"></div>
+              <div class="col s2 param-label">{{(params.energyGainedFromPhotosythesizing - 1) | number:'1.2-2'}}</div>
+            </div>
+    
+            <div class="row param-row">
+              <div class="col param-label">Move cost:</div>
+              <div class="col s6"><input [(ngModel)]="params.energyMoveCost" type="range" name="points" min="0" max="20" step=".05"></div>
+              <div class="col s2 param-label">{{params.energyMoveCost | number:'1.2-2'}}</div>
+            </div>
+    
+            <div class="row param-row">
+              <div class="col param-label">Move and eat cost:</div>
+              <div class="col s6"><input [(ngModel)]="params.energyMoveAndEatCost" type="range" name="points" min="0" max="20" step=".05"></div>
+              <div class="col s2 param-label">{{params.energyMoveAndEatCost | number:'1.2-2'}}</div>
+            </div>
+
+            <div class="row param-row">
+              <div class="col param-label">Bite strength:</div>
+              <div class="col s6"><input [(ngModel)]="params.biteStrength" type="range" name="points" min="0" max="1000"></div>
+              <div class="col s2 param-label">{{params.biteStrength}}</div>
+            </div>
+
+            <div class="row param-row">
+              <div class="col param-label">Digestion efficiency:</div>
+              <div class="col s6"><input [(ngModel)]="params.digestionEfficiency" type="range" name="points" min="0" max="100"></div>
+              <div class="col s2 param-label">{{params.digestionEfficiency}}%</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+
+    <div class="col s6">
+
+      <button (click)="resetWorld()" class="waves-effect waves-light btn">Reset</button>
+      <button (click)="insert('*')" class="waves-effect waves-light btn">Insert "*"</button>
+      <button (click)="insert('M')" class="waves-effect waves-light btn">Insert "M"</button>
+      <button (click)="insert(userGenome)" class="waves-effect waves-light btn">Insert: </button>
+      <input class="user-genome" type="text" [(ngModel)]="userGenome" placeholder="Genome">
+
+      <!-- TOP TEN SPECIES -->
+      <ul materialize="collapsible" class="collapsible"> <!-- data-collapsible="accordion"> -->
+        <li>
+          <div class="collapsible-header"><i class="material-icons">whatshot</i>Top 10 Species</div>
+          <div class="collapsible-body">
+
+            <table class="top-ten-list">
+
+              <tr class="header-row">
+                <th></th>
+                <th>#</th>
+                <th>Genome</th>
+              </tr>
+
+              <tr class="entry-row" *ngFor='let critterStats of topTen'>
+                <td>
+                  <div class="genomeColor" [style.backgroundColor]="critterStats.color"></div>
+                </td>
+
+                <td>
+                  {{critterStats.count}}
+                </td>
+
+                <td>
+                  {{critterStats.genome}}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </li>
+      </ul>
+
+
+      <!-- INSTRUCTION SET -->
+      <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header"><i class="material-icons">shuffle</i>Instruction Set</div>
+          <div class="collapsible-body">
+
+            <table class="top-ten-list">
+            
+              <tr class="entry-row" *ngFor='let instruction of allInstructions'>
+                <td>
+                  {{instruction.code}}
+                </td>
+
+                <td>
+                  {{instruction.description}}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </li>
+      </ul>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+<!--
 <h1>
   {{title}}
 </h1>
+
+<button class="waves-effect waves-light btn">Test Button</button>
+
+
+<div flex layout="column" class="full-screen">
+  <div flex>Title bar</div>
+
+  <div flex="50" layout="row"> 
+    <div flex class="column-simulation">
+      First column
+
+
+      <app-world-view [pixels]="renderPixels" style="width:512px;height:512px"></app-world-view>
+    </div>
+    
+    <div flex="50" class="column-controls">
+      column controls
+    <ul materialize="collapsible" class="collapsible" data-collapsible="accordion">
+          <li>
+            <div class="collapsible-header"><i class="material-icons">filter_drama</i>First</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">place</i>Second</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+          </li>
+          <li>
+            <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+            <div class="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+          </li>
+        </ul>
+              
+      Second column
+      <input [(ngModel)]="params.speed" type="range" name="points" min="0" max="10">
+      params = {{params | json}}<br>
+        Speed = {{speed}}
+
+    </div>
+  </div>
+
+  <div flex>bottom bar</div>
+</div>
+-->
+
+<!-- Modal Trigger -->
+<a class="waves-effect waves-light btn modal-trigger" (click)="openAbout()">Modal</a>
+ 
+<!-- Modal Structure -->
+<div id="modal1" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+  <div class="modal-content">
+    <h4>Yet another evolutionary simulation</h4>
+    <p>A bunch of text</p>
+  </div>
+  <div class="modal-footer">
+    <a class="waves-effect waves-green btn-flat" (click)="closeAbout()">Close</a>
+  </div>
+</div>
