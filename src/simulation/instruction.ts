@@ -1,29 +1,18 @@
 /**
- * The various instructions, how they are displayed and what they do
+ * The base class for all instructions and related enums, etc.
  */
 
 import { Element } from './element';
 import { Organism } from './organism';
 import { World } from './world';
 
-export enum InstructionResult {
-    DONT_ADVANCE,
-    EXECUTE_AGAIN
-}
-
 /**
- * A definition for an instuction parameter that could be tweaked by the user. For example, how far can an organism see? 
+ * Possible results of an instruction do() function.
+ * The default (return undefined) just advances to the next instruction
  */
-export class InstructionParameter {
-    constructor(
-        private _name:string,
-        private _key:string,
-        private _defaultValue:any
-    ) {}
-
-    get name():string { return this._name; }
-    get key():string { return this._key; }
-    get defaultValue():any { return this._defaultValue; }
+export enum InstructionResult {
+    DONT_ADVANCE, // don't advance to next instruction(used after an IF instruction succeeds)
+    EXECUTE_AGAIN // execute the next instruction immediately
 }
 
 /**
@@ -35,8 +24,6 @@ export abstract class Instruction {
     static _allInstructions:[Instruction];
     static _instructionMap:{[code: string]: Instruction} = {};
 
-    private _parameters:any = {};
-
     static allCodes:string = ''; // all the instructions in code form
 
     /**
@@ -44,31 +31,13 @@ export abstract class Instruction {
      */
     constructor(
         private _code:string,           // a letter or symbol
-        private _description:string,
-        energyImpact:number = Instruction.DEFAULT_ENERGY_IMPACT,
-        private _parameterDefinitions:[InstructionParameter] = null
+        private _description:string
         ) {
 
             Instruction.allCodes += _code;
 
             // fast lookup on code
             Instruction._instructionMap[_code] = this;
-
-            // create the energy impact parameter, and add it to the definition array
-            var energyImpactParam:InstructionParameter =
-                new InstructionParameter("Energy impact", "energyImpact", Instruction.DEFAULT_ENERGY_IMPACT);
-            if (this._parameterDefinitions == null) {
-                this._parameterDefinitions = [energyImpactParam];
-            }
-            else {
-                this._parameterDefinitions.push(energyImpactParam);
-            }
-
-            // now set up the default parameter values
-            for (var i in this._parameterDefinitions) {
-                var parameter:InstructionParameter = this._parameterDefinitions[i];
-                this._parameters[parameter.key] = parameter.defaultValue;
-            }
 
             // register this instruction in a static array
             if (! Instruction._allInstructions) {
@@ -86,7 +55,6 @@ export abstract class Instruction {
     }
     get description():string { return this._description; }
     get code():string { return this._code; }
-    get energyImpact():number { return this._parameters.energyImpact }
 
     abstract do(organism : Organism, world:World, element: Element):any;
 }

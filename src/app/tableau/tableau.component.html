@@ -1,0 +1,62 @@
+<div class="fluid-container" class="tableau">
+  <div class="row">
+
+    <div class="col s5 relative">
+      <span class="energy-bar-container">
+        <span class="energy-bar" [style.width]="(100*organism.energy/maxEnergy) + '%'"></span>
+      </span>
+      Energy: {{organism.energy}} / {{maxEnergy}}
+
+    </div>
+
+    <div class="col s4" style="padding-left:40px">
+      Genome:&nbsp;&nbsp;&nbsp;<span class="genome">{{organism.genome}}</span>
+    </div>
+
+    <div class="col s2">
+      <span [hidden]="!organism.sleepCount"> Sleeping...</span>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col s5">
+      <canvas width="256" height="256"></canvas>
+    </div>
+
+    <div class="col s7 instruction-list" *ngIf="organism">
+      <table>
+        <tr class="entry-row" *ngFor='let instruction of instructions; let i = index'>
+
+          <td class="active-column">
+            <span [hidden]="currentInstructionIndex != i"><i class="material-icons genome">play_arrow</i></span>
+          </td>
+
+          <td>
+            <span class="genome">{{instruction.code}}</span>
+          </td>
+          <td>
+            {{instruction.description}}
+          </td>
+
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="row buttons" style="margin-bottom:0">
+    <a class="waves-effect btn" (click)="togglePlay()" title="play/pause">
+      <i class="material-icons" [hidden]="! playing">pause</i>
+      <i class="material-icons" [hidden]="playing">play_arrow</i>
+    </a>
+    <a class="waves-effect btn" (click)="step()" title="step">
+      1
+    </a>
+    <a class="waves-effect btn" (click)="slower()" title="slower"><i class="material-icons">fast_rewind</i></a>
+    <a class="waves-effect btn" (click)="faster()" title="faster"><i class="material-icons">fast_forward</i></a>
+    <a class="waves-effect btn" (click)="replay()" title="restart"><i class="material-icons">replay</i></a>
+
+      <b>&nbsp;&nbsp;&nbsp;Turn: #{{turn + 1}}</b>
+
+  </div>
+</div>

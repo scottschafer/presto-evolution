@@ -1,0 +1,57 @@
+<div id="app-about-modal" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+  <div class="modal-content">
+    <a style="position:absolute; top: 10px; right:10px" class="waves-effect waves-green btn-flat" (click)="close()"><b>Close</b></a>
+    <h4>
+      Yet another evolutionary simulation
+      <a href="mailto:scott.schafer@gmail.com" style="font-size:50%" target="_top"> by Scott Schafer</a>
+    </h4>
+
+    <p>This is the first and simplest evolving artifical life simulation that I ever made, ported from C++/Windows (16-bit!) to modern
+      web technologies - and of course with some new features added. This version should be very easy to hack on - just follow the
+      instuctions on the <a href="https://github.com/scottschafer/presto-evolution">github project page</a>.
+      .</p>
+
+    <p>My goal was to create the simplest possible simulation in which inheritance, random mutation and natural selection lead to
+      interesting adaptations. Along the way I've been continually surprised how the simulated organisms (aka 'Critters') evolve to use
+      (or not) the instructions I've made available to them, sometimes in surprising and even apparently "inventive" ways.</p>
+
+    <p>Each of the simulated organisms (aka 'Critters') has a simple genome. Unlike the chemical ATGC encoding of you and me,
+      the "genomes" in this simulation is made up of instructions which are excuted sequentially, looping from the end back to the start, and 
+      a critter is as long as its number of instructions. A critter has energy, which goes down every turn (more if they <u><b>m</b>ove</u>
+      or <u><b>M</b>ove and eat</u>), and goes up when they photosynthesize or eat. </p>
+
+    <p>Below you will see how a critter executes its instructions, losing and gaining energy in the process. The green squares are food, the red
+        moving thing is the critter, and the white line at its head indicates the direction it is facing.</p>
+        
+    <p>This is an interactive view - you can use the buttons on the lower-left to speed up / slow down / play or step through the critter's actions. </p> 
+
+      <tableau [(sample)]="sample" [genome]="1>mm0M" [displayed]="isOpen"></tableau>
+
+      <p>There are three ways a critter can gain energy:</p>
+        <ol>
+          <li>
+            It can photosynthesize. The * instruction indicates that this cell should be a photosynthesis cell. A critter gains energy every
+            turn for each exposed photosynthesis cell. A photosynthesis cell is always bright green, even if part of a moving critter. 
+          </li>
+
+          <li>
+            It can exececute a <u><b>M</b>ove and eat</u> instruction so that its head moves onto a Food element (dark green).
+          </li>
+
+          <li>
+            It can exececute a <u><b>M</b>ove and eat</u> instruction so that its head moves onto the photosynthesis cell of another critter. This
+            inflicts damage on the other critter and gains eenrgy for the critter doing the biting.
+          </li>
+        </ol>
+
+      <p>If an organism's energy goes to zero, it dies and becomes food. If its energy exceeds its spawn energy, it produces an offspring which
+      may have a mutation in its instruction set - a random instruction randomly added, modified or deleted.
+      </p>
+
+      <p>You can click on the simulation window and drag to move the magnifying glass and play around with the various options, such as adding
+        obstacles or tweaking different parameters. You can also insert your own critters. Have fun!</p>
+        
+  </div>
+  <div class="modal-footer">
+  </div>
+</div>

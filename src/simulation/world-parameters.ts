@@ -3,9 +3,9 @@ export class WorldParameters {
   static readonly WORLDSIZE: number = 256;
 
   // simulation parameters
-  speed: number = 5;
+  speed: number = 10;
   maximumOrganisms:number = 30000;
-  initialFoodCount: number = 1000;
+  initialSeedCount: number = 1000;
   foodDropSpeed: number = 50;
 
   // the percentage of times a newly spawned offspring will have a mutation

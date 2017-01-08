@@ -6,11 +6,15 @@ import { MaterializeModule } from 'angular2-materialize';
 
 import { AppComponent } from './app.component';
 import { WorldViewComponent } from './world-view/world-view.component';
+import { TableauComponent } from './tableau/tableau.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WorldViewComponent
+    WorldViewComponent,
+    TableauComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

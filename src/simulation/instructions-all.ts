@@ -1,18 +1,9 @@
-/// <reference path='point.ts'/>
-/// <reference path='world.ts'/>
-/// <reference path='element.ts'/>
-/// <reference path='instruction.ts'/>
-/// <reference path='utils.ts'/>
-/// <reference path='organism.ts'/>
-
 import { Element } from './element';
 import { ElementType } from './element';
 import { Organism } from './organism';
 import { Instruction } from './instruction';
 import { World } from './world';
 import { InstructionResult } from './instruction';
-
-//module LibSim {
 
 /********************
  * All instructions
@@ -53,17 +44,16 @@ export class InstructionMoveAndEat extends Instruction {
 InstructionsAll.all.push(new InstructionMoveAndEat());
 
 /***********************************************************************
- |   "H": hyper mode!
+ |   "H": hyper mode
  ***********************************************************************/
 export class InstructionHyper extends Instruction {
 
     constructor() {
-        super('H', 'Hypermode!');
+        super('H', 'Go to hypermode, execute more instructions per turn (resets at end)');
     }
 
     do(organism: Organism, world: World, element:Element) {
         organism.instructionsPerTurn += organism.instructionsPerTurn;
-        //organism.energy += world.parameters.energyTurnCost; // zero cost
         return InstructionResult.EXECUTE_AGAIN;
     }
 }
@@ -266,6 +256,24 @@ export class InstructionIfNotBlocked extends Instruction {
 }
 InstructionsAll.all.push(new InstructionIfNotBlocked());
 
+/***********************************************************************
+ |   "4": Flip coin, test if Heads
+ ***********************************************************************/
+export class InstructionIfRandom extends Instruction {
+
+    constructor() {
+        super('4', 'Flip coin, test if Heads');
+    }
+
+    do(organism: Organism, world: World, element:Element) {
+        if (Math.random() < .5) {
+            organism.doNotIf();
+            return InstructionResult.DONT_ADVANCE;
+        }
+    }
+}
+InstructionsAll.all.push(new InstructionIfRandom());
+
 
 /***********************************************************************
  |   "e": Else
@@ -278,10 +286,7 @@ export class InstructionElse extends Instruction {
 
     do(organism: Organism, world: World, element:Element) {
         organism.energy += world.parameters.energyTurnCost * .75;
+        return InstructionResult.EXECUTE_AGAIN;
     }
 }
 InstructionsAll.all.push(new InstructionElse());
-
-
-//}
-

@@ -1,5 +1,6 @@
 <div class="fluid-container">
-  <div class="row">
+
+  <div class="row" >
 
     <div class="col s6">
       <app-world-view [pixels]="renderPixels" worldSize="256"></app-world-view>
@@ -90,11 +91,12 @@
 
     <div class="col s6">
 
+      <button (click)="openAbout()" class="waves-effect waves-light btn">?</button>
       <button (click)="resetWorld()" class="waves-effect waves-light btn">Reset</button>
-      <button (click)="insert('*')" class="waves-effect waves-light btn">Insert "*"</button>
-      <button (click)="insert('M')" class="waves-effect waves-light btn">Insert "M"</button>
+      <!-- button (click)="insert('*')" class="waves-effect waves-light btn">Insert "*"</button -->
+      <!-- button (click)="insert('M')" class="waves-effect waves-light btn">Insert "M"</button -->
       <button (click)="insert(userGenome)" class="waves-effect waves-light btn">Insert: </button>
-      <input class="user-genome" type="text" [(ngModel)]="userGenome" placeholder="Genome">
+      <input class="user-genome" type="text" [(ngModel)]="userGenome" placeholder="1>mm0M">
 
       <!-- TOP TEN SPECIES -->
       <ul materialize="collapsible" class="collapsible"> <!-- data-collapsible="accordion"> -->
@@ -150,24 +152,10 @@
           </div>
         </li>
       </ul>
-
-
-
     </div>
+  </div>
 
-  </div>
-</div>
-
-<!-- Modal Trigger -->
-<a class="waves-effect waves-light btn modal-trigger" (click)="openAbout()">Modal</a>
- 
-<!-- Modal Structure -->
-<div id="modal1" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
-  <div class="modal-content">
-    <h4>Yet another evolutionary simulation</h4>
-    <p>A bunch of text</p>
-  </div>
-  <div class="modal-footer">
-    <a class="waves-effect waves-green btn-flat" (click)="closeAbout()">Close</a>
-  </div>
+  <!-- Modal Trigger -->
+  <app-about [(isOpen)]="isAboutOpen"></app-about> 
+  <!-- Modal Structure -->
 </div>

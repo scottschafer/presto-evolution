@@ -1,0 +1,68 @@
+.tableau {
+    background-color: black;
+    color: white;
+    padding: 5px;
+
+    .relative {
+        position: relative;
+    }
+    
+    .energy-bar-container {
+        position: absolute;
+        height: 20px;
+        border: rgba(255,255,255,.5) solid 1px;
+        left: 58px;
+        right: 0;
+    }
+
+    .energy-bar {
+        position: absolute;
+        height: 100%;
+        height:100%;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b3dced+0,29b8e5+50,bce0ee+100;Blue+Pipe */
+background: #b3dced; /* Old browsers */
+background: -moz-linear-gradient(top,  #b3dced 0%, #29b8e5 50%, #bce0ee 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #b3dced 0%,#29b8e5 50%,#bce0ee 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #b3dced 0%,#29b8e5 50%,#bce0ee 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee',GradientType=0 ); /* IE6-9 */
+    }
+
+    .instruction-list {
+        color: rgb(200,200,200);        
+    }
+
+    .genome {
+        letter-spacing: 2px;
+        font-weight: 800;
+        color: white;
+    }
+
+    .active-column {
+        display: inline-block;
+        padding-bottom:0!important;
+        height:24px;
+        overflow:hidden;
+    }
+
+    td {
+        padding-top:0px!important;
+        padding-bottom:8px!important;
+        vertical-align: top;
+    }
+
+    tr {
+        padding-bottom: 4px;
+    }
+
+    .waves-effect {
+        background-color: rgba(128, 128, 128, 0.65);
+        padding-left:10px;
+        padding-right:10px;
+    }
+
+    .buttons {
+        a {
+            width: 40px;
+        }
+    }
+}

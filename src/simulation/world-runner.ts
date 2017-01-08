@@ -2,9 +2,6 @@
 import { World } from './world';
 import { WorldParameters } from './world-parameters';
 import { WorldRenderData } from './world-render-data';
-//module LibSim {
-
-//import { WebWorkerService } from './angular2-web-worker-ext/web-worker.service';
 
 /** 
  * A transfer object that is sent from the worker thread to the main rendering thread instructing it what to render.
@@ -17,16 +14,20 @@ export class WorldRunner {
   params:WorldParameters;
   worker: Worker;
   private static instance:WorldRunner;
+  paused:boolean = false;
 
-  //declare type RenderDataHandler = (myArgument: WorldRenderData) => void;
 
-  constructor(params:WorldParameters = null) {
+  constructor(params:WorldParameters = null, serializedWorld = null) {
+    
     if (! params) {
       params = new WorldParameters();
     }
     this.params = params;
     this.world = new World(params);
 
+    if (serializedWorld) {
+      this.world.deserialize(JSON.parse(serializedWorld));
+    }
 
   /*
     // TODO: use a web worker thread
@@ -43,25 +44,32 @@ export class WorldRunner {
     var self = this;
 
     function turnCrank() {
-      self.world.turnCrank();
+      var interval = (10 - self.params.speed);
+      interval *= interval * 5;
 
-      // send a render "event"
-      var curTime = new Date().getTime();
-      var elapsedRenderTime = curTime - lastRenderMS;
-      var elaspedTopTenSurvey = curTime - lastTopTenSurveyMS;
-      var surveyTopTen = elaspedTopTenSurvey > WorldRunner.MIN_SURVEY_MS;
+      if (! self.paused) {
+        self.world.turnCrank();
 
-      if (elapsedRenderTime > WorldRunner.MIN_RENDER_MS) {
-        lastRenderMS = curTime;
-        if (surveyTopTen) {
-          lastTopTenSurveyMS = curTime;
+        // send a render "event"
+        var curTime = new Date().getTime();
+        var elapsedRenderTime = curTime - lastRenderMS;
+        var elaspedTopTenSurvey = curTime - lastTopTenSurveyMS;
+        var surveyTopTen = elaspedTopTenSurvey > WorldRunner.MIN_SURVEY_MS;
+
+        if (elapsedRenderTime > WorldRunner.MIN_RENDER_MS) {
+          lastRenderMS = curTime;
+          if (surveyTopTen) {
+            lastTopTenSurveyMS = curTime;
+          }
+          var renderData:WorldRenderData = new WorldRenderData(self.world, surveyTopTen);
+          callback(renderData);
         }
-        var renderData:WorldRenderData = new WorldRenderData(self.world, surveyTopTen);
-        callback(renderData);
       }
+
+      setTimeout(turnCrank, interval);
     }
 
-    window.setInterval(turnCrank, 0);
+    turnCrank();
   }
 
   public static workerThreadFunction() {
@@ -90,6 +98,8 @@ export class WorldRunner {
   }
 
 /*
+  Experimental code....
+
   private createWorkerUrl(resolve: Function): string {
     const resolveString = resolve.toString();
     const webWorkerTemplate = `
@@ -100,8 +110,7 @@ export class WorldRunner {
     const blob = new Blob([webWorkerTemplate], { type: 'text/javascript' });
     return URL.createObjectURL(blob);
   }
-*/
-/*
+
   private static threadFunction(): void {
     //var params:WorldParameters = new WorldParameters();
     //var world:World = new World(params);
@@ -111,7 +120,6 @@ export class WorldRunner {
       console.log('threadFunction received ' + e.data);
       window.postMessage('I am a message sent FROM the worker', '*');
     }
-
   }
 
   createThread(): Worker {
@@ -123,5 +131,3 @@ export class WorldRunner {
   }
   */
 }
-
-//}

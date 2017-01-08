@@ -112,7 +112,7 @@ export class WorldViewComponent implements OnInit {
    * Copy from the pixels buffer to the canvas
    */
   private updatePixels() {
-      if (this.pixels && this.pixels.length) {
+      if (this.pixels && this.pixels.length && this.canvasOnScreen) {
 
       var inBuffer: ArrayBuffer = this.pixels[0];
 
