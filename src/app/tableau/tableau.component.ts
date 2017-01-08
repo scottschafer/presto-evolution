@@ -140,7 +140,6 @@ export class TableauComponent implements OnInit {
 
   renderTurn() {
     if (this.turn == 0) {
-      console.log('turn #' + this.turn);
       this.world.deserialize(this.samples[0]);
     }
     //this.world.deserialize(this.samples[this.turn]);
@@ -153,7 +152,6 @@ export class TableauComponent implements OnInit {
 
     var zoom = 256 / Math.max(this.boundingH, this.boundingW);
 
-    console.log("start render")
     if (this.organism) {
       var i = 0;
       var e: Element = this.organism.headSegment;
@@ -185,7 +183,7 @@ export class TableauComponent implements OnInit {
 
           ctx.fillRect(x, y, zoom, zoom);
 
-          if (e == this.organism.headSegment) {
+          if (this.organism && e == this.organism.headSegment) {
             ctx.strokeStyle = "White";
             ctx.lineWidth = 5;
             ctx.beginPath();
@@ -202,7 +200,9 @@ export class TableauComponent implements OnInit {
       }
     }
 
-    this.maxEnergy = this.organism.getSpawnEnergy(this.world);
+    if (this.organism) {
+      this.maxEnergy = this.organism.getSpawnEnergy(this.world);
+    }
   }
 
   slower() {

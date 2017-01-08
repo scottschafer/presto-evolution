@@ -1,6 +1,6 @@
 <div id="app-about-modal" class="modal bottom-sheet" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
   <div class="modal-content">
-    <a style="position:absolute; top: 10px; right:10px" class="waves-effect waves-green btn-flat" (click)="close()"><b>Close</b></a>
+    <a style="position:absolute; top: 10px; right:10px" class="waves-effect waves-green btn-flat" (click)="close()"><b>Back to simulation</b></a>
     <h4>
       Yet another evolutionary simulation
       <a href="mailto:scott.schafer@gmail.com" style="font-size:50%" target="_top"> by Scott Schafer</a>
@@ -8,8 +8,7 @@
 
     <p>This is the first and simplest evolving artifical life simulation that I ever made, ported from C++/Windows (16-bit!) to modern
       web technologies - and of course with some new features added. This version should be very easy to hack on - just follow the
-      instuctions on the <a href="https://github.com/scottschafer/presto-evolution">github project page</a>.
-      .</p>
+      instuctions on the <a href="https://github.com/scottschafer/presto-evolution">github project page</a>.</p>
 
     <p>My goal was to create the simplest possible simulation in which inheritance, random mutation and natural selection lead to
       interesting adaptations. Along the way I've been continually surprised how the simulated organisms (aka 'Critters') evolve to use

@@ -22,7 +22,7 @@ export class WorldParameters {
   energyMoveCost: number = 2;
   energyMoveAndEatCost: number = 15;
   energyGainedFromPhotosythesizing: number = 1.25;
-  biteStrength: number = 300;
+  biteStrength: number = 500;
   digestionEfficiency:number = 75;
 
   constructor() {

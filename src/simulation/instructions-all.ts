@@ -53,7 +53,7 @@ export class InstructionHyper extends Instruction {
     }
 
     do(organism: Organism, world: World, element:Element) {
-        organism.instructionsPerTurn += organism.instructionsPerTurn;
+        organism.instructionsPerTurn *= 3;
         return InstructionResult.EXECUTE_AGAIN;
     }
 }
@@ -274,7 +274,6 @@ export class InstructionIfRandom extends Instruction {
 }
 InstructionsAll.all.push(new InstructionIfRandom());
 
-
 /***********************************************************************
  |   "e": Else
  ***********************************************************************/
@@ -290,3 +289,20 @@ export class InstructionElse extends Instruction {
     }
 }
 InstructionsAll.all.push(new InstructionElse());
+
+/***********************************************************************
+ |   "r": Restart
+ ***********************************************************************/
+export class InstructionRestart extends Instruction {
+
+    constructor() {
+        super('r', 'Restart at beginning');
+    }
+
+    do(organism: Organism, world: World, element:Element) {
+        organism.activeSegment = null;
+//        organism.energy += world.parameters.energyTurnCost * .75;
+        return InstructionResult.DONT_ADVANCE;
+    }
+}
+InstructionsAll.all.push(new InstructionRestart());

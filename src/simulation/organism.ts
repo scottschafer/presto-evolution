@@ -125,12 +125,8 @@ export class Organism {
      */
     turnCrank(world:World) {
         var count = this.instructionsPerTurn;
-
+        var originalCount = count;
         --this.lifespan;
-        if (this.numExposedPhotosynthesizeCells && ! this.sleepCount) {
-            this.energy += world.parameters.energyGainedFromPhotosythesizing +
-                (this.numExposedPhotosynthesizeCells - 1) * (world.parameters.energyGainedFromPhotosythesizing - world.parameters.energyTurnCost);
-        }
 
         while (count--) {
             if (this.sleepCount) {
@@ -138,6 +134,13 @@ export class Organism {
                 ++this.lifespan;
                 continue;
             }
+
+            // get the photosynthesis energy (does not accrue while sleeping)
+            if (this.numExposedPhotosynthesizeCells && ! this.sleepCount) {
+                this.energy += world.parameters.energyGainedFromPhotosythesizing +
+                    (this.numExposedPhotosynthesizeCells - 1) * (world.parameters.energyGainedFromPhotosythesizing - world.parameters.energyTurnCost);
+            }
+
             if (! this.activeSegment) {
                 this.activeSegment = this.headSegment;
                 this.instructionsPerTurn = 1;
@@ -192,10 +195,6 @@ export class Organism {
 
     move(world:World, andEat:Boolean) {
         this.wasBlocked = false;
-
-        this.energy -= andEat ? world.parameters.energyMoveAndEatCost : world.parameters.energyMoveCost;
-
-        //var worldSize:number = world.parameters.size;
 
         var destinationX:number = (this.headSegment.locationX + this.headDirectionX) & 255;
         var destinationY:number = (this.headSegment.locationY + this.headDirectionY) & 255;
@@ -258,18 +257,21 @@ export class Organism {
                             world.put(destinationX, destinationY, null);
                         }
                         break;
-
-                    case ElementType.ORGANISM:
-                    /*
-                        if (elementAtDestination.organism != this) {
-                            this.energy += world.parameters.energyGainedFromEating;
-                            elementAtDestination.organism.energy -= world.parameters.energyGainedFromEating;;
-                        }
-                        */
-                        break;
                 }
             }
         }
+
+
+        // does the energy cost for moving apply when an organism attempted to move but was blocked?
+        
+        // I really don't want to reward critters that curl up into a ball, as it makes for an uninteresting simulation, although it is
+        // an effective defense. For now, the compromise is that if a critter attempts to move but is blocked, it loses half the energy
+        // than it would had it moved.
+        var energyCost = andEat ? world.parameters.energyMoveAndEatCost : world.parameters.energyMoveCost;
+        if (this.wasBlocked) {
+            energyCost /= 2;
+        } 
+        this.energy -= energyCost;
 
         // validate
         var validateOrganismAfterMove:Boolean = false;//true;
@@ -314,14 +316,12 @@ export class Organism {
     }
 
 
-    testIfFacing(elementType:ElementType, world:World, distance:number = 10): boolean {
+    testIfFacing(elementType:ElementType, world:World, distance:number = 15): boolean {
 
         var locationX:number = this.headSegment.locationX;
         var locationY:number = this.headSegment.locationY;
 
         var photosynthesizeInstruction = Instruction.instructionFromCode('*');
-
-        //var worldSize:number = world.parameters.size;
 
         while (distance--) {
             locationX = (locationX + this.headDirectionX) & 255; // wrap
@@ -334,18 +334,12 @@ export class Organism {
                 if (element.type == elementType) {
                     return true;
                 }
-                /*
-                else if (elementType == ElementType.FOOD && element.instruction == photosynthesizeInstruction) {
-                    return true;
-                }
-                */
             }
         }
         return false;
     }
 
     doNotIf():void {
-        //this.energy += 1;
         // for now, just skip an instruction
         if (this.activeSegment) {
             var next:Element = this.activeSegment.next;

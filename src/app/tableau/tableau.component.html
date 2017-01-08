@@ -1,22 +1,25 @@
 <div class="fluid-container" class="tableau">
-  <div class="row">
+  <div class="row" style="min-height:21px">
+    <span *ngIf="organism">
 
-    <div class="col s5 relative">
-      <span class="energy-bar-container">
-        <span class="energy-bar" [style.width]="(100*organism.energy/maxEnergy) + '%'"></span>
-      </span>
-      Energy: {{organism.energy}} / {{maxEnergy}}
+      <div class="col s5 relative">
+        <span class="energy-bar-container">
+          <span class="energy-bar" [style.width]="(100*organism.energy/maxEnergy) + '%'"></span>
+          <span>
+          Energy: {{organism.energy}} / {{maxEnergy}}
+          </span>
+        </span>
+      </div>
 
-    </div>
+      <div class="col s4" style="padding-left:40px">
+        Genome:&nbsp;&nbsp;&nbsp;
+        <span class="genome">{{organism.genome}}</span>
+      </div>
 
-    <div class="col s4" style="padding-left:40px">
-      Genome:&nbsp;&nbsp;&nbsp;<span class="genome">{{organism.genome}}</span>
-    </div>
-
-    <div class="col s2">
-      <span [hidden]="!organism.sleepCount"> Sleeping...</span>
-    </div>
-
+      <div class="col s2">
+        <span [hidden]="!organism.sleepCount"> Sleeping...</span>
+      </div>
+    </span>
   </div>
 
   <div class="row">

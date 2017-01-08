@@ -26,19 +26,6 @@ export class AppComponent implements OnInit {
 
   private _isAboutOpen: boolean;
 
-  @Input()
-  get isAboutOpen(): boolean {
-    return this._isAboutOpen;
-  }
-
-  @Output() isAboutOpenChange = new EventEmitter();
-
-  set isAboutOpen(val) {
-    this._isAboutOpen = val;
-    this.worldRunner.paused = val;
-    this.isAboutOpenChange.emit(this._isAboutOpen);
-  }
-
   constructor(private elementRef: ElementRef, private _webWorkerService: WebWorkerService) {
 
     var useWebWorker = false;
@@ -53,7 +40,7 @@ export class AppComponent implements OnInit {
 
     /*
     if (useWebWorker) {
-    // eventually get this working.
+    // eventually get the simulation running in a web worker...
       var promise:Promise<any> = this._webWorkerService.run( 
         function(){
 
@@ -120,9 +107,11 @@ export class AppComponent implements OnInit {
       $(".collapsible").collapsible({ accordion: false });
     }, 100);
 
+    /*
     setTimeout(() => {
       this.openAbout();
     }, 1000);
+    */
   }
 
   onObstacleChange(val: any) {
@@ -155,4 +144,17 @@ export class AppComponent implements OnInit {
   openAbout() {
     this.isAboutOpen = true;
   }
+
+  @Input()
+  get isAboutOpen(): boolean {
+    return this._isAboutOpen;
+  }
+
+  @Output() isAboutOpenChange = new EventEmitter();
+
+  set isAboutOpen(val) {
+    this._isAboutOpen = val;
+    this.worldRunner.paused = val;
+    this.isAboutOpenChange.emit(this._isAboutOpen);
+  }  
 }

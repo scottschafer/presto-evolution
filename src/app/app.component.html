@@ -3,7 +3,7 @@
   <div class="row" >
 
     <div class="col s6">
-      <p>Turns per second: {{turnsPerSecond  | number:'1.2-2'}}</p>
+      <p style="margin-top:4px; margin-bottom: 4px">Turns per second: {{turnsPerSecond  | number:'1.2-2'}}</p>
 
       <app-world-view [pixels]="renderPixels" worldSize="256"></app-world-view>
 
@@ -91,14 +91,16 @@
 
     </div>
 
-    <div class="col s6">
+    <div class="col s6" style="margin-top:4px">
 
-      <button (click)="openAbout()" class="waves-effect waves-light btn">?</button>
       <button (click)="resetWorld()" class="waves-effect waves-light btn">Reset</button>
       <!-- button (click)="insert('*')" class="waves-effect waves-light btn">Insert "*"</button -->
       <!-- button (click)="insert('M')" class="waves-effect waves-light btn">Insert "M"</button -->
       <button (click)="insert(userGenome)" class="waves-effect waves-light btn">Insert: </button>
       <input class="user-genome" type="text" [(ngModel)]="userGenome" placeholder="1>mm0M">
+      <button (click)="openAbout()" class="btn-floating waves-effect red pulse help">?
+        <div class="dot"></div>
+      </button>
 
       <!-- TOP TEN SPECIES -->
       <ul materialize="collapsible" class="collapsible"> <!-- data-collapsible="accordion"> -->
