@@ -19,7 +19,7 @@ export class WorldParameters {
   lifespanRandomizationPercent: number = 10;
 
   energyTurnCost: number = 1;
-  energyMoveCost: number = 2;
+  energyMoveCost: number = 4;
   energyMoveAndEatCost: number = 15;
   energyGainedFromPhotosythesizing: number = 1.25;
   biteStrength: number = 500;

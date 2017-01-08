@@ -53,7 +53,7 @@ export class InstructionHyper extends Instruction {
     }
 
     do(organism: Organism, world: World, element:Element) {
-        organism.instructionsPerTurn *= 3;
+        organism.instructionsPerTurn = 3;
         return InstructionResult.EXECUTE_AGAIN;
     }
 }

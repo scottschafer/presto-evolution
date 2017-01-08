@@ -290,11 +290,6 @@ export class World {
         }
 
         var segment:Element = organism.headSegment;
-        if (organism.genome == '*') {
-            this.put(segment.locationX, segment.locationY, null);
-            return;
-        }
-
         while (segment) {
             this.put(segment.locationX, segment.locationY, null);
             segment = segment.next;
@@ -302,18 +297,20 @@ export class World {
 
         segment = organism.headSegment;
 
+        // every other segment turns to food
+        var i = 1;
         while (segment) {
             if (segment.isOccluded) {
                 break;
             }
 
-            if (! wasEaten) {
+            if (! wasEaten && (i % 2)) {
                 this.put(segment.locationX, segment.locationY, this.foodElement);
             }
 
+            ++i;
             segment = segment.next;
         }
-
         organism.reset(this);
         organism.next = this.headOrganismInactive;
         this.headOrganismInactive = organism;
