@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   renderPixels: Object;
   topTen: any;
   userGenome: string;
+  turnsPerSecond: number;
 
   private _isAboutOpen: boolean;
 
@@ -99,6 +100,10 @@ export class AppComponent implements OnInit {
 
             if (renderData.serializedWorld && window.localStorage) {
               window.localStorage['serializedWorld'] = renderData.serializedWorld;
+            }
+
+            if (renderData.turnsPerSecond) {
+              self.turnsPerSecond = renderData.turnsPerSecond;
             }
           }
         }

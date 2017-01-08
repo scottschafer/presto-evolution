@@ -1,5 +1,14 @@
 # PrestoEvolution
 
+A simple evolving artificial life simulation.
+
+It's easy to start hacking on. Simply clone the repo, run "npm install" from within the directory and then "ng serve" to deploy it in a browser.
+
+TODO:
+* Move simulation code into a web worker
+* Loading and saving the world state
+* Inspecting an arbitrary critter through the "tableau" view.
+
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.24.
 
 ## Development server

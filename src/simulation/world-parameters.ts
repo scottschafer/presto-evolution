@@ -9,21 +9,21 @@ export class WorldParameters {
   foodDropSpeed: number = 50;
 
   // the percentage of times a newly spawned offspring will have a mutation
-  mutationRate: number = 10;
+  mutationRate: number = 15;
 
   // the amount of energy required to spawn a new offspring
-  spawnEnergyPerSegment: number = 200;
+  spawnEnergyPerSegment: number = 250;
 
   // lifespan
-  lifespanPerSegment: number = 50000;
+  lifespanPerSegment: number = 25000;
   lifespanRandomizationPercent: number = 10;
 
   energyTurnCost: number = 1;
   energyMoveCost: number = 2;
   energyMoveAndEatCost: number = 15;
   energyGainedFromPhotosythesizing: number = 1.25;
-  biteStrength: number = 200;
-  digestionEfficiency:number = 50;
+  biteStrength: number = 300;
+  digestionEfficiency:number = 75;
 
   constructor() {
   }

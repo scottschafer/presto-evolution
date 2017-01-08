@@ -44,6 +44,7 @@ export class WorldRunner {
     var self = this;
 
     function turnCrank() {
+      ++WorldRenderData.elapsedTurns;
       var interval = (10 - self.params.speed);
       interval *= interval * 5;
 

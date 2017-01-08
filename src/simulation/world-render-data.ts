@@ -11,9 +11,13 @@ export class WorldRenderData {
     static _pixels: ArrayBuffer;
     static lastTopCritters: string;
 
+    static elapsedTurns: number = 0;
+    static startTime: number = 0;
+    
     topTenList: any;
     pixels: ArrayBuffer;
     serializedWorld: string;
+    turnsPerSecond: number;
 
     constructor(world: World, determineTopTen: boolean = false) {
         this.preparePixels(world);
@@ -23,7 +27,7 @@ export class WorldRenderData {
             /*
 
             for now, skip this...
-            
+
             var topTen: string = JSON.stringify(this.topTenList);
             // whenever the list changes, serialize the world
             if (WorldRenderData.lastTopCritters != topTen) {
@@ -77,6 +81,15 @@ export class WorldRenderData {
     }
 
     private determineTopTenList(world: World) {
+
+        // determine FPS
+        var curTime = new Date().getTime();
+        if (WorldRenderData.startTime) {
+            this.turnsPerSecond = 1000 * WorldRenderData.elapsedTurns / (curTime - WorldRenderData.startTime);
+        }
+        WorldRenderData.startTime = curTime;
+        WorldRenderData.elapsedTurns = 0;
+
         var genomesToCounts: any = {};
         var organism = world.headOrganism;
         while (organism) {

@@ -3,6 +3,8 @@
   <div class="row" >
 
     <div class="col s6">
+      <p>Turns per second: {{turnsPerSecond  | number:'1.2-2'}}</p>
+
       <app-world-view [pixels]="renderPixels" worldSize="256"></app-world-view>
 
       <!-- GENERAL PARAMETERS -->
