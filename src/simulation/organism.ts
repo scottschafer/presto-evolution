@@ -61,9 +61,10 @@ export class Organism {
         this.reset(world);
         this.genome = genome;
         for (var i:number = 0; i < genome.length; i++) {
-            var element:Element = this.addSegment(genome[i], location, world, i > 0);
+            var isOccluded = genome.length > 1;
+            var element:Element = this.addSegment(genome[i], location, world, isOccluded);
         }
-        if (genome[0] === '*') {
+        if (genome == '*') {
             this.numExposedPhotosynthesizeCells = 1;
         }
 
@@ -144,6 +145,7 @@ export class Organism {
             if (! this.activeSegment) {
                 this.activeSegment = this.headSegment;
                 this.instructionsPerTurn = 1;
+                count = 0;
             }
             // adjust organism's energy by the instruction's impact
             this.energy -= world.parameters.energyTurnCost;
@@ -159,8 +161,13 @@ export class Organism {
                 }
             }
 
-            if (result == InstructionResult.EXECUTE_AGAIN && this.activeSegment) {
-                ++count;
+            if (result == InstructionResult.EXECUTE_AGAIN) {
+                if (this.activeSegment) {
+                    ++count;
+                }
+                else {
+                    break;
+                }
             }
         }
     }
@@ -196,6 +203,7 @@ export class Organism {
     move(world:World, andEat:Boolean) {
         this.wasBlocked = false;
 
+        this.headSegment.isOccluded = false;
         var destinationX:number = (this.headSegment.locationX + this.headDirectionX) & 255;
         var destinationY:number = (this.headSegment.locationY + this.headDirectionY) & 255;
 

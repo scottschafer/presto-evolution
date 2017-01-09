@@ -53,7 +53,8 @@ export class InstructionHyper extends Instruction {
     }
 
     do(organism: Organism, world: World, element:Element) {
-        organism.instructionsPerTurn = 3;
+        organism.energy += world.parameters.energyTurnCost * .75;
+        organism.instructionsPerTurn = 4;
         return InstructionResult.EXECUTE_AGAIN;
     }
 }

@@ -63,7 +63,7 @@ export class World {
                 var location: Point = this.getEmptyLocation();
 
                 var organism:Organism = this.createOrganism("*", location);
-                organism.energy = Utils.randRangeInt(-1000, organism.getSpawnEnergy(this));
+                organism.energy = Utils.randRangeInt(0, organism.getSpawnEnergy(this));
             }
         }
     }
@@ -219,7 +219,7 @@ export class World {
 
         if (this.parameters.foodDropSpeed) {
             if (this.parameters.foodDropSpeed >= 99 || ((this.turn % (100-this.parameters.foodDropSpeed)) == 0)) {
-                for (var i = 0; i < 5; i++) {
+                for (var i = 0; i < 10; i++) {
                     var location: Point = this.getEmptyLocation();
                     this.put(location.x, location.y, this.foodElement);
                 }
