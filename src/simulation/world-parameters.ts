@@ -6,10 +6,10 @@ export class WorldParameters {
   speed: number = 10;
   maximumOrganisms:number = 30000;
   initialSeedCount: number = 1000;
-  foodDropSpeed: number = 50;
+  foodDropSpeed: number = 0;
 
   // the percentage of times a newly spawned offspring will have a mutation
-  mutationRate: number = 15;
+  mutationRate: number = 25;
 
   // the amount of energy required to spawn a new offspring
   spawnEnergyPerSegment: number = 250;

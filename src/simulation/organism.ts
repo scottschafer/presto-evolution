@@ -350,7 +350,7 @@ export class Organism {
     doNotIf():void {
         // for now, just skip an instruction
         if (this.activeSegment) {
-            var next:Element = this.activeSegment.next;
+            var next:Element = this.activeSegment.next; //skip to end
             
             // search for Else instruction
             var testNext:Element = this.activeSegment.next;
