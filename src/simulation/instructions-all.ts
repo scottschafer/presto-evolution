@@ -49,7 +49,7 @@ InstructionsAll.all.push(new InstructionMoveAndEat());
 export class InstructionHyper extends Instruction {
 
     constructor() {
-        super('H', 'Go to hypermode, execute more instructions per turn (resets at end)');
+        super('H', 'Go to hypermode, execute more instructions per turn (resets at last instruction)');
     }
 
     do(organism: Organism, world: World, element:Element) {

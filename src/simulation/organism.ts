@@ -127,14 +127,14 @@ export class Organism {
     turnCrank(world:World) {
         var count = this.instructionsPerTurn;
         var originalCount = count;
-        --this.lifespan;
 
         while (count--) {
             if (this.sleepCount) {
                 --this.sleepCount;
-                ++this.lifespan;
                 continue;
             }
+
+            --this.lifespan;
 
             // get the photosynthesis energy (does not accrue while sleeping)
             if (this.numExposedPhotosynthesizeCells && ! this.sleepCount) {
@@ -144,7 +144,6 @@ export class Organism {
 
             if (! this.activeSegment) {
                 this.activeSegment = this.headSegment;
-                this.instructionsPerTurn = 1;
                 count = 0;
             }
             // adjust organism's energy by the instruction's impact
@@ -161,8 +160,15 @@ export class Organism {
                 }
             }
 
+            if (! this.activeSegment) {
+                this.instructionsPerTurn = 1;
+                break;
+            }
+
             if (result == InstructionResult.EXECUTE_AGAIN) {
                 if (this.activeSegment) {
+                    count += 1 + this.instructionsPerTurn - originalCount;
+                    originalCount = this.instructionsPerTurn;
                     ++count;
                 }
                 else {
@@ -211,7 +217,7 @@ export class Organism {
 
         // if this is a Move & Eat instruction, and we are moving onto simple food, then gain energy and don't be blocked
         if (andEat && elementAtDestination && elementAtDestination.type == ElementType.FOOD && ! elementAtDestination.organism) {
-            this.energy += world.parameters.spawnEnergyPerSegment * world.parameters.digestionEfficiency / 100;
+            this.energy += world.parameters.spawnEnergyPerSegment / 4 * world.parameters.digestionEfficiency / 100;
             world.put(destinationX, destinationY, null);
             elementAtDestination = null;
         }

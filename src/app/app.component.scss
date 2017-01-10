@@ -55,6 +55,18 @@
 }
 
 
+.magnifying-glass-row {
+    margin-top: 5px;
+    .input-field {
+        margin: 0;
+        label {
+            top: 0px;
+            color: black;
+            font-size: 80%;
+        }
+    }
+}
+
 
 .pulse {
   z-index: 10;

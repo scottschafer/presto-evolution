@@ -3,11 +3,27 @@
   <div class="row" >
 
     <div class="col s6">
-      <p style="margin-top:4px; margin-bottom: 4px">Turns per second: {{turnsPerSecond  | number:'1.2-2'}}</p>
+      
+      <div class="row param-row magnifying-glass-row">
+        <div class="col s6">
+          Turns per second: {{turnsPerSecond  | number:'1.2-2'}}
+        </div>
+        <div class="col s6 input-field">
+          <input id="magnifying-glass" name="magnifying-glass" type="checkbox" [(ngModel)]="magnifying" />
+          <label for="magnifying-glass">Magnifying glass</label>
+        </div>
+      </div>
 
-      <app-world-view [pixels]="renderPixels" worldSize="256"></app-world-view>
+<!--
+      <p style="margin-top:4px; margin-bottom: 4px">
+        <div materialize class="row row param-row magnifying-glass-row">
+        </div>
+      </p>
+-->
+      <app-world-view [pixels]="renderPixels" [(magnifying)]="magnifying" worldSize="256"></app-world-view>
 
-      <!-- GENERAL PARAMETERS -->
+      <!-- GENERAL PARAMETERS -->      
+
       <!--   SPEED: -->
       <div class="row param-row">
         <div class="col param-label">Speed:</div>
@@ -103,7 +119,7 @@
       </button>
 
       <!-- TOP TEN SPECIES -->
-      <ul materialize="collapsible" class="collapsible"> <!-- data-collapsible="accordion"> -->
+      <ul materialize="collapsible" class="collapsible collapsible-initexpand"> <!-- data-collapsible="accordion"> -->
         <li>
           <div class="collapsible-header"><i class="material-icons">whatshot</i>Top 10 Species</div>
           <div class="collapsible-body">

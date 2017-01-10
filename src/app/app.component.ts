@@ -7,7 +7,7 @@ declare var $: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   providers: [WebWorkerService]
 })
 export class AppComponent implements OnInit {
@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
   topTen: any;
   userGenome: string;
   turnsPerSecond: number;
+  magnifying: boolean = true;
 
   private _isAboutOpen: boolean;
 
@@ -103,15 +104,9 @@ export class AppComponent implements OnInit {
     var elem = $(this.elementRef.nativeElement);
 
     setTimeout(() => {
-      $(".collapsible-header").addClass("active");
-      $(".collapsible").collapsible({ accordion: false });
+      $(".collapsible-initexpand").find(".collapsible-header").addClass("active");
+      $(".collapsible-initexpand").collapsible({ accordion: false });
     }, 100);
-
-    /*
-    setTimeout(() => {
-      this.openAbout();
-    }, 1000);
-    */
   }
 
   onObstacleChange(val: any) {

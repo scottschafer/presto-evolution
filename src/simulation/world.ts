@@ -295,21 +295,22 @@ export class World {
             segment = segment.next;
         }
 
-        segment = organism.headSegment;
+        if (! wasEaten && organism.genome != '*') {
+            segment = organism.headSegment;
+            //// every other segment turns to food
+            var i = 1;
+            while (segment) {
+                if (segment.isOccluded) {
+                    break;
+                }
 
-        // every other segment turns to food
-        var i = 1;
-        while (segment) {
-            if (segment.isOccluded) {
-                break;
+                //if (! wasEaten && (i % 2)) {
+                    this.put(segment.locationX, segment.locationY, this.foodElement);
+                //}
+
+                ++i;
+                segment = segment.next;
             }
-
-            if (! wasEaten && (i % 2)) {
-                this.put(segment.locationX, segment.locationY, this.foodElement);
-            }
-
-            ++i;
-            segment = segment.next;
         }
         organism.reset(this);
         organism.next = this.headOrganismInactive;

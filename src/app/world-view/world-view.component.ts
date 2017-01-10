@@ -1,16 +1,19 @@
-import { Component, OnInit, ElementRef, ComponentRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, ComponentRef, Input, Output, EventEmitter } from '@angular/core';
 declare var $:any;
 
 @Component({
   selector: 'app-world-view',
   templateUrl: './world-view.component.html',
   styleUrls: ['./world-view.component.css'],
-  inputs: ['pixels', 'worldSize']
+  inputs: ['pixels', 'worldSize', 'magnifying'],
+  outputs: ['magnifying']
 })
 export class WorldViewComponent implements OnInit {
 
   pixels:Array<ArrayBuffer>;
   worldSize:number;
+  _magnifying: boolean;
+
   private lastWidth:number = 0;
   private lastHeight:number = 0;
   private canvasOnScreen:HTMLCanvasElement;
@@ -21,42 +24,37 @@ export class WorldViewComponent implements OnInit {
   private magnificationX: number = 128;
   private magnificationY: number = 128;
   private mouseDown: boolean = false;
+
+  @Input()
+  get magnifying():boolean {
+    return this._magnifying;
+  }
+
+  @Output() magnifyingChange = new EventEmitter();
+
+  set magnifying(val) {
+    this._magnifying = val;
+    this.magnifyingChange.emit(this._magnifying);
+  }  
   
   constructor(private elementRef: ElementRef) {
   }
 
   ngOnInit() {  
+
+    $(window).mouseup( () => {
+      this.mouseDown = false;
+    });
+
     this.canvasOffScreen = $(this.elementRef.nativeElement).find('.off-screen-canvas')[0]; 
     this.canvasOnScreen = $(this.elementRef.nativeElement).find('.on-screen-canvas')[0]; 
-      
-/*
- const mouseDown$ = Observable.fromEvent(canvasNE, 'mousedown');
-      const mouseMove$ = Observable.fromEvent(canvasNE, 'mousemove');
-      const mouseUp$ = Observable.fromEvent(canvasNE, 'mouseup');
-
-      const moveUntilMouseUp$= mouseMove$.takeUntil(mouseUp$);
-      const startRotate$ = mouseDown$.switchMapTo(moveUntilMouseUp$.startWith(null));
-
-      const relativePoint = (start: MouseEvent, end: MouseEvent): {x:number, y:number} => 
-      (start && end && {
-        dx: start.clientX - end.clientX,
-        dy: start.clientY - end.clientY,
-        start: start
-      } || {});
-
-      this.relativeTo$ = startRotate$
-        .combineLatest(mouseDown$)
-        .map(arr => relativePoint(arr[0],arr[1]));
-
-      this.rotateToAngle$ = this.relativeTo$
-        .map((tr) => ({angle: Math.atan2(tr.dy, tr.dx), start: tr.start}));
-        */
   }
 
    clicked(event) {
-     var size = $(this.canvasOnScreen).width();
+    var size = $(this.canvasOnScreen).width();
     this.magnificationX = 256 * event.clientX / size;
     this.magnificationY = 256 * event.clientY / size;
+    this.magnifying = true;
     event.preventDefault();
   }
 
@@ -95,13 +93,7 @@ export class WorldViewComponent implements OnInit {
 
     // because every application needs some ugly magic numbers in it:
     var w:number = parent.width() - 20; 
-    var h:number = parent.height() - 20;
-    // (without that adjustment, things vibrate in a funky way and cause seizures)
-
-    if (w != this.lastWidth || h != this.lastHeight) {
-      this.lastWidth = w;
-      this.lastHeight = h;
-    }
+    var h:number = Math.max(100, $(window).height() - 250);
 
     var dim = Math.min(w,h);
     $(this.canvasOnScreen).css({width: (dim + 'px'), height: (dim + 'px')}); 
@@ -138,7 +130,7 @@ export class WorldViewComponent implements OnInit {
         (<any>ctx).mozImageSmoothingEnabled = (<any>ctx).msImageSmoothingEnabled = (<any>ctx).webkitImageSmoothingEnabled = 
           (<any>ctx).imageSmoothingEnabled = false;
 
-        if (this.magnification > 1) {
+        if (this.mouseDown || this.magnifying) {
           var srcX = this.magnificationX - this.magnificationSize / 2;
           var srcY = this.magnificationY - this.magnificationSize / 2;
           var destX = this.magnificationX - this.magnificationSize / 2 * this.magnification;

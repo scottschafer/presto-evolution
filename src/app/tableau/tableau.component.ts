@@ -23,7 +23,7 @@ declare var $: any;
 })
 export class TableauComponent implements OnInit {
 
-  static readonly NUM_SAMPLES = 200;
+  static readonly NUM_SAMPLES = 80;
 
   sample: Object;
   parameters:WorldParameters;
@@ -207,10 +207,12 @@ export class TableauComponent implements OnInit {
 
   slower() {
     this.timePerFrame *= 1.25;
+    this.playing = true;
   }
 
   faster() {
     this.timePerFrame *= .75;
+    this.playing = true;
   }
 
   replay() {
